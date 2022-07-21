@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "node-fetch": "^3.2.9"
+  },
+  "scripts": {
+    "start": "node ignore-build-step.mjs"
+  }
+}
