@@ -1,3 +1,3 @@
 import fetch from "node-fetch";
-//
-console.log(fetch);
+
+console.log(process.env)
