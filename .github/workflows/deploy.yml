@@ -10,6 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - env:
           GIT_BRANCH: ${{ github.head_ref }}
           SNAPLET_ACCESS_TOKEN: ${{ secrets.SNAPLET_ACCESS_TOKEN }}
@@ -21,7 +22,7 @@ jobs:
           readonly vercel_auth_header="Authorization: Bearer ${VERCEL_ACCESS_TOKEN}"
 
           install_deps() {
-            curl -sL "https://app.snaplet.dev/get-cli/" | bash
+            curl -sL "https://app.snaplet.dev/get-cli/" | bash > "/dev/null"
           }
 
           create_database() {
