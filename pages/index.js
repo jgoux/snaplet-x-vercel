@@ -73,7 +73,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        Powered by{' '}
+        Powered byy{' '}
         <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
         &
         <img src="/prisma.svg" alt="Prisma Logo" className={styles.logo} />
