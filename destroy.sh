@@ -8,7 +8,7 @@ install_deps() {
 }
 
 delete_database() {
-  snaplet database delete --git --latest
+  snaplet database delete --git
 }
 
 extract_deploy_hook_id() {
