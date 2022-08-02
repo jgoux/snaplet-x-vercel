@@ -45,7 +45,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Snappy Prisma Vercel Deployment Example</h1>
+        <h1 className={styles.title}>Snappy Snappy Prisma Vercel Deployment Example</h1>
 
         <div className={styles.grid}>
           <button onClick={onGetStatus} className={styles.apiButton}>
