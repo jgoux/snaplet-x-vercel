@@ -45,7 +45,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>I Changed The Title! Prisma Vercel Deployment Example</h1>
+        <h1 className={styles.title}>Snaplet x Prisma x Vercel Deployment Example!</h1>
 
         <div className={styles.grid}>
           <button onClick={onGetStatus} className={styles.apiButton}>
