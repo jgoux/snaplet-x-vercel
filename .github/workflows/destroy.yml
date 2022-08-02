@@ -19,4 +19,4 @@ jobs:
           SNAPLET_PROJECT_ID: ${{ secrets.SNAPLET_PROJECT_ID }}
           VERCEL_ACCESS_TOKEN: ${{ secrets.VERCEL_ACCESS_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: curl -sL "https://raw.githubusercontent.com/snaplet/vercel/main/scripts/destroy.sh" | bash
+        run: curl -sS "https://raw.githubusercontent.com/snaplet/vercel/main/scripts/destroy.sh" | bash
