@@ -4,7 +4,7 @@ readonly vercel_project_api_endpoint="https://api.vercel.com/v9/projects/${VERCE
 readonly vercel_auth_header="Authorization: Bearer ${VERCEL_ACCESS_TOKEN}"
 
 install_deps() {
-  curl -sL "https://app.snaplet.dev/get-cli/" | bash
+  curl -sL "https://app.snaplet.dev/get-cli/" | bash &> /dev/null
 }
 
 create_database() {
