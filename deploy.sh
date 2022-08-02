@@ -34,8 +34,8 @@ create_deploy_hook() {
 create_env() {
   local readonly database_url=$(snaplet database url --git)
   curl -sS -o "/dev/null" -X "POST" "${vercel_project_api_endpoint}/env" \
+    -H "${vercel_auth_header}" \
     -H 'Content-Type: application/json' \
-    -H "${VERCEL_ACCESS_TOKEN}" \
     --data '{
       "target": ["preview"],
       "gitBranch": "'"${GIT_BRANCH}"'",
