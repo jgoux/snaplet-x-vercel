@@ -65,16 +65,15 @@ export default function Home() {
           ></div>
         </div>
         <pre
-          className={`responseContainer ${styles.code} ${
-            apiResponse ? '' : styles.hidden
-          }`}
+          className={`responseContainer ${styles.code} ${apiResponse ? '' : styles.hidden
+            }`}
         >
           {apiResponse && JSON.stringify(apiResponse, null, 2)}
         </pre>
       </main>
 
       <footer className={styles.footer}>
-        Powered by{' '}
+        Powered byy{' '}
         <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
         &
         <img src="/prisma.svg" alt="Prisma Logo" className={styles.logo} />
