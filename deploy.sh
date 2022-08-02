@@ -37,7 +37,7 @@ create_env() {
     -H 'Content-Type: application/json' \
     -H "${VERCEL_ACCESS_TOKEN}" \
     --data '{
-      "target": "preview",
+      "target": ["preview"],
       "gitBranch": "'"${GIT_BRANCH}"'",
       "type": "encrypted",
       "key": "DATABASE_URL",
