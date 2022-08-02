@@ -26,14 +26,14 @@ fetch_project() {
 }
 
 delete_deploy_hook() {
-  local readonly deploy_hook_id="${1}"
+  local readonly deploy_hook_id=$(extract_deploy_hook_id "$(fetch_project)" || echo "")
   curl -sS -o "/dev/null" \
     -X "DELETE" "${vercel_project_api_endpoint}/deploy-hooks/${deploy_hook_id}" \
     -H "${vercel_auth_header}"
 }
 
 delete_env() {
-  local readonly env_id="${1}"
+  local readonly env_id=$(extract_env_id "$(fetch_project)" || echo "")
   curl -sS -o "/dev/null" \
     -X "DELETE" "${vercel_project_api_endpoint}/env/${env_id}" \
     -H "${vercel_auth_header}"
@@ -42,6 +42,14 @@ delete_env() {
 echo "Installing dependencies..."
 install_deps
 echo "Dependencies installed."
+
+echo "Deleting environment..."
+delete_env
+echo "Environment deleted."
+
+echo "Deleting deploy hook..."
+delete_deploy_hook
+echo "Deploy hook deleted."
 
 echo "Deleting database..."
 delete_database
