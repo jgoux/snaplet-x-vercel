@@ -1,4 +1,4 @@
-name: Deploy
+name: Destroy
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  destroy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
