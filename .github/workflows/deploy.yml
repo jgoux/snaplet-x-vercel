@@ -53,7 +53,7 @@ jobs:
 
           create_env() {
             local readonly database_url=$(snaplet database url --git)
-            curl -sS -o "/dev/null" -X "POST" "${vercel_project_api_endpoint}/env" \
+            curl -sS -X "POST" "${vercel_project_api_endpoint}/env" \
               -H 'Content-Type: application/json' \
               -H "${VERCEL_ACCESS_TOKEN}" \
               --data '{
