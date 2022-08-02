@@ -13,7 +13,7 @@ create_database() {
 
 extract_deploy_hook_url() {
   local readonly project="${1}"
-  jq -r -c ".link.deployHooks[] | select(.name == \"${GIT_BRANCH}\") | .url" <<< "${project}"
+  jq -r -c ".link.deployHooks[] | select(.ref == \"${GIT_BRANCH}\") | .url" <<< "${project}"
 }
 
 fetch_project() {
