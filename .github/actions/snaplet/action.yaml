@@ -39,7 +39,7 @@ runs:
       shell: bash
       run: curl -sS "https://app.snaplet.dev/get-cli/" | bash &> "/dev/null"
 
-    - if: ${{ inputs.delete == false }}
+    - if: ${{ inputs.delete == 'false' }}
       id: deploy
       name: Deploy Instant Database
       shell: bash
@@ -48,7 +48,7 @@ runs:
         [ "${{ inputs.reset-database-state }}" == "true" ] && ${{ inputs.snaplet-database-create-command }}
         echo "::set-output name=database-url::$(${{ inputs.snaplet-database-url-command }})"
 
-    - if: ${{ inputs.delete == true }}
+    - if: ${{ inputs.delete == 'true' }}
       name: Delete Instant Database
       shell: bash
       run: ${{ inputs.snaplet-database-delete-command }}
