@@ -11,10 +11,12 @@ runs:
   using: composite
   steps:
     - name: Install Vercel CLI
+      shell: bash
       run: npm install --global vercel@latest
 
     - if: ${{ inputs.delete == false }}
       name: Deploy Project
+      shell: bash
       run: |
         echo $DATABASE_URL | vercel env add DATABASE_URL preview $GITHUB_HEAD_REF --token=$VERCEL_ACCESS_TOKEN
         vercel pull --yes --environment=preview --token=$VERCEL_ACCESS_TOKEN
@@ -23,4 +25,5 @@ runs:
 
     - if: ${{ inputs.delete == true }}
       name: Delete Project Environment
+      shell: bash
       run: vercel env rm DATABASE_URL preview $GITHUB_HEAD_REF --token=$VERCEL_ACCESS_TOKEN

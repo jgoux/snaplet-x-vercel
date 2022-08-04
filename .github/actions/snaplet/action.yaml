@@ -36,11 +36,13 @@ runs:
   using: composite
   steps:
     - name: Install Snaplet CLI
+      shell: bash
       run: curl -sS "https://app.snaplet.dev/get-cli/" | bash &> "/dev/null"
 
     - if: ${{ inputs.delete == false }}
       id: deploy
       name: Deploy Instant Database
+      shell: bash
       run: |
         ${{ inputs.snaplet-database-url-command }} &> "/dev/null" || ${{ inputs.snaplet-database-create-command }}
         [ "${{ inputs.reset-database-state }}" == "true" ] && ${{ inputs.snaplet-database-create-command }}
@@ -48,5 +50,6 @@ runs:
 
     - if: ${{ inputs.delete == true }}
       name: Delete Instant Database
+      shell: bash
       run: ${{ inputs.snaplet-database-delete-command }}
 
