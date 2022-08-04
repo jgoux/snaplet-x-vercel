@@ -44,12 +44,12 @@ runs:
       name: Deploy Instant Database
       shell: bash
       run: |
-        ${{ inputs.snaplet-database-url-command }} &> "/dev/null" || ${{ inputs.snaplet-database-create-command }}
-        [ "${{ inputs.reset-database-state }}" == "true" ] && ${{ inputs.snaplet-database-create-command }}
-        echo "::set-output name=database-url::$(${{ inputs.snaplet-database-url-command }})"
+        ${{ inputs.database-url-command }} &> "/dev/null" || ${{ inputs.database-create-command }}
+        [ "${{ inputs.reset-database-state }}" == "true" ] && ${{ inputs.database-create-command }}
+        echo "::set-output name=database-url::$(${{ inputs.database-url-command }})"
 
     - if: ${{ inputs.delete == 'true' }}
       name: Delete Instant Database
       shell: bash
-      run: ${{ inputs.snaplet-database-delete-command }}
+      run: ${{ inputs.database-delete-command }}
 
