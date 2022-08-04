@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize, closed]
     branches:
       - main
-# comment again
+# another again
 jobs:
   snaplet-x-vercel:
     uses: snaplet/vercel/.github/workflows/snappy.yaml@main
