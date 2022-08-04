@@ -30,7 +30,7 @@ inputs:
 outputs:
   database-url:
     description: Instant database url
-    value: ${{ steps.deploy.outputs.url }}
+    value: ${{ steps.deploy.outputs.database-url }}
 
 runs:
   using: composite
