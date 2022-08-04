@@ -41,23 +41,12 @@ runs:
     - if: ${{ inputs.delete == false }}
       id: deploy
       name: Deploy Instant Database
-      env:
-        RESET_DATABASE_STATE: ${{ inputs.reset-database-state }}
-        SNAPLET_ACCESS_TOKEN: ${{ secrets.snaplet-access-token }}
-        SNAPLET_DATABASE_CREATE_COMMAND: ${{ inputs.snaplet-database-create-command }}
-        SNAPLET_DATABASE_URL_COMMAND: ${{ inputs.snaplet-database-url-command }}
-        SNAPLET_PROJECT_ID: ${{ inputs.snaplet-project-id }}
       run: |
-        eval "${SNAPLET_DATABASE_URL_COMMAND}" &> "/dev/null" || eval "${SNAPLET_DATABASE_CREATE_COMMAND}"
-        if [[ "${RESET_DATABASE_STATE}" == "true" ]]; then eval "${SNAPLET_DATABASE_CREATE_COMMAND}"; fi
-        echo "::set-output name=database-url::$(eval "${SNAPLET_DATABASE_URL_COMMAND}")"
+        ${{ inputs.snaplet-database-url-command }} &> "/dev/null" || ${{ inputs.snaplet-database-create-command }}
+        [ "${{ inputs.reset-database-state }}" == "true" ] && ${{ inputs.snaplet-database-create-command }}
+        echo "::set-output name=database-url::$(${{ inputs.snaplet-database-url-command }})"
 
     - if: ${{ inputs.delete == true }}
       name: Delete Instant Database
-      env:
-        SNAPLET_ACCESS_TOKEN: ${{ secrets.snaplet-access-token }}
-        SNAPLET_DATABASE_DELETE_COMMAND: ${{ inputs.snaplet-database-delete-command }}
-        SNAPLET_PROJECT_ID: ${{ inputs.snaplet-project-id }}
-      run: |
-        eval "${SNAPLET_DATABASE_DELETE_COMMAND}"
+      run: ${{ inputs.snaplet-database-delete-command }}
 
