@@ -1,0 +1,63 @@
+name: Snaplet
+
+inputs:
+  database-create-command:
+    description: Command used to generate the instant database
+    required: false
+    type: string
+    default: snaplet database create --git --latest
+  delete:
+    description: Delete the database
+    required: false
+    type: boolean
+    default: false
+  database-delete-command:
+    description: Command used to delete the instant database
+    required: false
+    type: string
+    default: snaplet database delete --git
+  database-url-command:
+    description: Command used to get the instant database url
+    required: false
+    type: string
+    default: snaplet database url --git
+  reset-database-state:
+    description: Reset the database state on each commit to the branch
+    required: false
+    type: boolean
+    default: false
+
+outputs:
+  database-url:
+    description: Instant database url
+    value: ${{ steps.deploy.outputs.url }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install Snaplet CLI
+      run: curl -sS "https://app.snaplet.dev/get-cli/" | bash &> "/dev/null"
+
+    - if: ${{ inputs.delete == false }}
+      id: deploy
+      name: Deploy Instant Database
+      env:
+        RESET_DATABASE_STATE: ${{ inputs.reset-database-state }}
+        SNAPLET_ACCESS_TOKEN: ${{ secrets.snaplet-access-token }}
+        SNAPLET_DATABASE_CREATE_COMMAND: ${{ inputs.snaplet-database-create-command }}
+        SNAPLET_DATABASE_URL_COMMAND: ${{ inputs.snaplet-database-url-command }}
+        SNAPLET_PROJECT_ID: ${{ inputs.snaplet-project-id }}
+      run: |
+        eval "${SNAPLET_DATABASE_URL_COMMAND}" &> "/dev/null" || eval "${SNAPLET_DATABASE_CREATE_COMMAND}"
+        if [[ "${RESET_DATABASE_STATE}" == "true" ]]; then eval "${SNAPLET_DATABASE_CREATE_COMMAND}"; fi
+        echo "::set-output name=database-url::$(eval "${SNAPLET_DATABASE_URL_COMMAND}")"
+
+    - if: ${{ inputs.delete == true }}
+      name: Delete Instant Database
+      env:
+        SNAPLET_ACCESS_TOKEN: ${{ secrets.snaplet-access-token }}
+        SNAPLET_DATABASE_DELETE_COMMAND: ${{ inputs.snaplet-database-delete-command }}
+        SNAPLET_PROJECT_ID: ${{ inputs.snaplet-project-id }}
+      run: |
+        eval "${SNAPLET_DATABASE_DELETE_COMMAND}"
+

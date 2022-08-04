@@ -1,0 +1,26 @@
+name: Vercel
+
+inputs:
+  delete:
+    description: Delete the environment variable
+    required: false
+    type: boolean
+    default: false
+
+runs:
+  using: composite
+  steps:
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+
+    - if: ${{ inputs.delete == false }}
+      name: Deploy Project
+      run: |
+        echo $DATABASE_URL | vercel env add DATABASE_URL preview $GITHUB_HEAD_REF --token=$VERCEL_ACCESS_TOKEN
+        vercel pull --yes --environment=preview --token=$VERCEL_ACCESS_TOKEN
+        vercel build --token=$VERCEL_ACCESS_TOKEN
+        vercel deploy --prebuilt --token=$VERCEL_ACCESS_TOKEN
+
+    - if: ${{ inputs.delete == true }}
+      name: Delete Project Environment
+      run: vercel env rm DATABASE_URL preview $GITHUB_HEAD_REF --token=$VERCEL_ACCESS_TOKEN

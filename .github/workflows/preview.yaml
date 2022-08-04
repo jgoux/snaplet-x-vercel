@@ -1,0 +1,36 @@
+name: Preview
+
+env:
+  SNAPLET_ACCESS_TOKEN: ${{ secrets.SNAPLET_ACCESS_TOKEN }}
+  SNAPLET_PROJECT_ID: cl5up4f0k1193687rtlyrlgr9ppx
+  VERCEL_ACCESS_TOKEN: ${{ secrets.VERCEL_ACCESS_TOKEN }}
+  VERCEL_ORG_ID: IhJgavs0KBkRtl4DPzwvhXJS
+  VERCEL_PROJECT_ID: prj_ctwBcqnKTpMToaznO83U06kK6fG6
+
+on:
+  pull_request:
+    types: [opened, synchronize, closed]
+    branches:
+      - main
+
+jobs:
+  deploy-preview:
+    if: ${{ github.event.action == 'opened' || github.event.action == 'synchronize' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - id: snaplet
+        uses: ./.github/actions/snaplet
+      - uses: ./.github/actions/vercel
+        env:
+          DATABASE_URL: ${{ steps.snaplet.outputs.database-url }}
+  delete-preview:
+    if: ${{ github.event.action == 'closed' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/snaplet
+        with:
+          delete: true
+      - uses: ./.github/actions/vercel
+        with:
+          delete: true
