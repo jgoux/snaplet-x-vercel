@@ -6,6 +6,11 @@ inputs:
     required: false
     type: boolean
     default: false
+  environment-variable-prefix:
+    description: Prefix to detect environment variables to create on Vercel
+    required: false
+    type: string
+    default: VERCEL_GITHUB_ACTION_
 
 runs:
   using: composite
@@ -18,12 +23,28 @@ runs:
       name: Deploy Project
       shell: bash
       run: |
-        echo $DATABASE_URL | vercel env add DATABASE_URL preview $GITHUB_HEAD_REF --token=$VERCEL_ACCESS_TOKEN
+        node << 'JS' | bash
+        const prefix = "${{ inputs.environment-variable-prefix }}";
+        console.log(
+          Object.entries(process.env)
+            .filter(([k]) => k.startsWith(prefix))
+            .map(([k]) => `echo $${k} | vercel env add ${k.replace(prefix, "")} preview $GITHUB_HEAD_REF --token=$VERCEL_ACCESS_TOKEN`)
+            .join("\n")
+        );
+        JS
         vercel pull --yes --environment=preview --token=$VERCEL_ACCESS_TOKEN
         vercel build --token=$VERCEL_ACCESS_TOKEN
         vercel deploy --prebuilt --token=$VERCEL_ACCESS_TOKEN
-
     - if: ${{ inputs.delete == true }}
-      name: Delete Project Environment
+      name: Delete Project Environment Variables
       shell: bash
-      run: vercel env rm DATABASE_URL preview $GITHUB_HEAD_REF --token=$VERCEL_ACCESS_TOKEN
+      run: |
+        node --experimental-fetch --no-warnings --input-type=module << 'JS' | bash
+        const project = await fetch(`https://api.vercel.com/v9/projects/${process.env.VERCEL_PROJECT_ID}`, { headers: { Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}` } }).then(r => r.json());
+        console.log(
+          project.env
+          .filter((e) => e.target[0] === "preview" && e.gitBranch === process.env.GITHUB_HEAD_REF)
+          .map((e) => `vercel env rm ${e.key} preview $GITHUB_HEAD_REF --yes --token=$VERCEL_ACCESS_TOKEN`)
+          .join("\n")
+        );
+        JS

@@ -23,7 +23,7 @@ jobs:
         uses: ./.github/actions/snaplet
       - uses: ./.github/actions/vercel
         env:
-          DATABASE_URL: ${{ steps.snaplet.outputs.database-url }}
+          VERCEL_GITHUB_ACTION_DATABASE_URL: ${{ steps.snaplet.outputs.database-url }}
   delete-preview:
     if: ${{ github.event.action == 'closed' }}
     runs-on: ubuntu-latest
