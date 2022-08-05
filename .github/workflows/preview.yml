@@ -19,6 +19,8 @@ jobs:
     steps:
       - id: snaplet
         uses: snaplet/action@main
+        with:
+          reset: true
       - uses: snaplet/vercel-action@main
         with:
           env: |
