@@ -12,7 +12,7 @@ on:
     types: [opened, synchronize, closed]
     branches:
       - main
-
+#jobs
 jobs:
   deploy:
     if: ${{ github.event.action == 'opened' || github.event.action == 'synchronize' }}
