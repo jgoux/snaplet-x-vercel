@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: snaplet
-        uses: snaplet/action@reset-logic
+        uses: snaplet/action@fix/reset-logic
       - uses: snaplet/vercel-action@v1
         with:
           env: |
