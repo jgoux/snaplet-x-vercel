@@ -26,7 +26,7 @@ jobs:
           await-for-deployment: true
           env: |
             DATABASE_URL=${{ steps.snaplet.outputs.database-url }}
-      - run: echo "The deployment URL is ${{ steps.vercel.outputs.deployment-url }}"
+      - run: echo "The deployment URL is ${{ steps.vercel.outputs.deployment-url }} "
   delete:
     if: ${{ github.event.action == 'closed' }}
     runs-on: ubuntu-latest
