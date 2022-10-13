@@ -21,7 +21,7 @@ jobs:
       - id: snaplet
         uses: snaplet/action@v1
       - id: vercel
-        uses: snaplet/vercel-action@main
+        uses: snaplet/vercel-action@v2
         with:
           await-for-deployment: true
           env: |
@@ -34,6 +34,6 @@ jobs:
       - uses: snaplet/action@v1
         with:
           delete: true
-      - uses: snaplet/vercel-action@main
+      - uses: snaplet/vercel-action@v2
         with:
           delete: true
